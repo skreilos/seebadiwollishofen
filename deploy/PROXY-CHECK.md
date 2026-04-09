@@ -75,3 +75,48 @@ Wenn **nginxproxy/nginx-proxy** und **acme-companion** laufen (wie bei mehreren 
 4. DNS: **A-Record** für `seebadiwollishofen.ch` und `www` auf die Server-IP.
 
 Der Companion beantragt das Zertifikat automatisch, sobald der Host per HTTP erreichbar ist.
+
+---
+
+## HTTPS funktioniert nicht (nginx-proxy + acme-companion)
+
+**Ablauf:** Zuerst muss **HTTP (Port 80)** für die Domain funktionieren — dann erzeugt der Companion das Zertifikat und **nginx-proxy** schaltet **443** frei.
+
+### Checkliste
+
+1. **Umgebungsvariablen** am Seebadi-Container (nach `docker compose … up`):
+
+   ```bash
+   docker inspect seebadiwollishofen-web-1 --format '{{range .Config.Env}}{{println .}}{{end}}' | grep -E 'VIRTUAL|LETSENCRYPT'
+   ```
+
+   Es müssen u. a. stehen: `VIRTUAL_HOST`, `LETSENCRYPT_HOST` (gleiche Hosts, kommagetrennt), **`LETSENCRYPT_EMAIL`** mit einer **echten** E-Mail (in `docker-compose.nginx-proxy.yml` anpassen, Container neu erstellen).
+
+2. **Logs Companion** (Fehler von Let’s Encrypt):
+
+   ```bash
+   docker logs letsencrypt-nginx-proxy-companion 2>&1 | tail -80
+   ```
+
+   Typisch: Rate-Limit, Challenge schlägt fehl, Domain stimmt nicht.
+
+3. **DNS:** `seebadiwollishofen.ch` und ggf. `www` per **A-Record** auf die **Server-IP** (ohne dass ein anderer Proxy die Challenge blockiert). Bei **Cloudflare:** für die ACME-Challenge oft **„DNS only“** (graues Wolke-Symbol) statt „Proxied“ testen.
+
+4. **Nach Änderungen** Companion und Proxy kurz neu anwerfen, dann 1–2 Minuten warten:
+
+   ```bash
+   docker restart letsencrypt-nginx-proxy-companion
+   ```
+
+5. **Prüfen:**
+
+   ```bash
+   curl -sI http://seebadiwollishofen.ch/
+   curl -sI https://seebadiwollishofen.ch/
+   ```
+
+   Erst wenn **HTTP** sauber ist, liefert **HTTPS** ein gültiges Zertifikat.
+
+### Hinweis
+
+Der **Seebadi-Container** lauscht nur **intern auf 80** — TLS macht ausschliesslich **nginx-proxy** davor. SSL-Zertifikate in der Seebadi-`default.conf` sind dafür **nicht** nötig.

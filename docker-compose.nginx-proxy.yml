@@ -10,6 +10,10 @@
 #
 # Optional: In docker-compose.yml "ports: - 8081:80" entfernen, wenn du nur noch
 # über die Domain (80/443) erreichbar sein willst — nicht zwingend.
+#
+# VIRTUAL_HOST / LETSENCRYPT_HOST: apex + www, damit beide Hostnamen dieselbe Site
+# erreichen und das Zertifikat beide Namen abdeckt. Ob die Browser-URL www zeigt,
+# steuert i. d. R. Cloudflare/DNS (Redirect), nicht diese Zeilen.
 
 services:
   web:

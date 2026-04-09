@@ -1,0 +1,28 @@
+# nginx-proxy + acme-companion (wie auf deinem Server: Container "nginx-proxy")
+#
+# 1) Netzwerkname von nginx-proxy auslesen und unten bei "name:" eintragen:
+#    docker inspect nginx-proxy --format '{{range $k,$v := .NetworkSettings.Networks}}{{$k}}{{"\n"}}{{end}}'
+#
+# 2) LETSENCRYPT_EMAIL an deine echte Adresse anpassen (Let's Encrypt).
+#
+# 3) Start (im Projektordner):
+#    docker compose -f docker-compose.yml -f docker-compose.nginx-proxy.yml up -d --build
+#
+# Optional: In docker-compose.yml "ports: - 8081:80" entfernen, wenn du nur noch
+# über die Domain (80/443) erreichbar sein willst — nicht zwingend.
+
+services:
+  web:
+    environment:
+      VIRTUAL_HOST: seebadiwollishofen.ch,www.seebadiwollishofen.ch
+      LETSENCRYPT_HOST: seebadiwollishofen.ch,www.seebadiwollishofen.ch
+      LETSENCRYPT_EMAIL: admin@seebadiwollishofen.ch
+      VIRTUAL_PORT: "80"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
+    # HIER den Namen aus Schritt 1 einsetzen, z. B. nginx-proxy_default
+    name: REPLACE_WITH_NGINX_PROXY_NETWORK

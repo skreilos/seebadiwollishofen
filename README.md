@@ -41,7 +41,7 @@ cd /opt/seebadiwollishofen-ch
 docker compose up -d --build
 ```
 
-Reverse-Proxy auf den in `docker-compose.yml` gemappten Port oder `80:80` setzen.
+**Reverse-Proxy (Domain → Container):** Siehe **`deploy/PROXY-CHECK.md`** (welcher `proxy_pass` passt) und **`deploy/nginx-reverse-proxy.example.conf`**. Standard-Port auf dem Host: **8081** (`8081:80` in `docker-compose.yml`).
 
 ## Anpassungen
 

@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+# Vorschau der vollen Website (nicht in der Sitemap); bei Go-live wieder entfernen
+Disallow: /page/
+
+Sitemap: https://www.seebadiwollishofen.ch/sitemap.xml

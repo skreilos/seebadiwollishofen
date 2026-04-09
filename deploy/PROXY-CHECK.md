@@ -63,7 +63,7 @@ Wenn **nginxproxy/nginx-proxy** und **acme-companion** laufen (wie bei mehreren 
    docker inspect nginx-proxy --format '{{range $k,$v := .NetworkSettings.Networks}}{{$k}}{{"\n"}}{{end}}'
    ```
 
-2. Im Repo **`docker-compose.nginx-proxy.yml`** den Platzhalter `REPLACE_WITH_NGINX_PROXY_NETWORK` durch diesen Namen ersetzen, **`LETSENCRYPT_EMAIL`** setzen.
+2. Im Repo **`docker-compose.nginx-proxy.yml`** bei `networks.proxy.name` den Namen aus Schritt 1 eintragen (auf manchen Servern heisst er schlicht **`nginx-proxy`**), **`LETSENCRYPT_EMAIL`** setzen.
 
 3. Seebadi neu starten:
 

@@ -791,9 +791,6 @@ a:hover { color: var(--accent-hover); }
   line-height: 1.5;
 }
 
-.map-consent-hint + .map-consent-hint {
-  margin-top: 0.45rem;
-}
 
 .contact-links { margin: 1rem 0; }
 
@@ -1351,15 +1348,19 @@ a:hover { color: var(--accent-hover); }
 .travel-list li {
   margin-bottom: 0.45rem;
   display: grid;
-  grid-template-columns: 1.5rem 1fr;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  column-gap: 0.65rem;
   align-items: start;
-  gap: 0.5rem;
+}
+.travel-text {
+  min-width: 0;
 }
 .travel-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.5rem;
+  width: 2rem;
+  flex: 0 0 auto;
   color: var(--text);
 }
 .travel-icon .bi {

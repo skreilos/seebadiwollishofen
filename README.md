@@ -19,8 +19,8 @@ Ohne Docker: beliebiger statischer Server auf `public/`, z. B. `npx serve publ
 
 - **`public/index.html`** — nur Logo + Hinweis *«Unser Webauftritt wird gerade überarbeitet.»*
 - **`public/page/index.html`** — bisherige One-Page-Website; `<base href="/"/>` lädt CSS/JS/Bilder weiter von `/assets/…`.
-- **`robots.txt`** — `Disallow: /page/` damit Suchmaschinen die Vorschau nicht indexieren (bei Go-live Zeile entfernen).
-- **Go-live:** Inhalt von `public/page/index.html` wieder als `public/index.html` legen (oder tauschen), `Disallow: /page/` entfernen, ggf. Redirect von `/page/` einrichten.
+- **`robots.txt`** — bei Teaser-Betrieb ggf. `Disallow: /page/`; bei produktiver Hauptseite unter `/page/` diese Zeile entfernen (siehe aktuelles Repo).
+- **Go-live:** Inhalt von `public/page/index.html` wieder als `public/index.html` legen (oder tauschen), ggf. Redirect von `/page/` einrichten.
 
 ## PDF-Speisekarten
 
@@ -29,9 +29,16 @@ Dateien nach `public/assets/menus/` legen:
 - `speisekarte.pdf`
 - `getraenkekarte.pdf`
 
-## Reservierungen
+## Anfrageformular (Formspark)
 
-Das Formular öffnet ein **Mailto** mit allen Feldern. E-Mail in `public/assets/js/main.js` (`RESERVATION_EMAIL`).
+Anlässe-Anfragen gehen über **[Formspark](https://formspark.io/)** (Formular-Backend per HTTPS, siehe [Dokumentation](https://documentation.formspark.io/setup)).
+
+1. Bei Formspark ein Konto anlegen und ein **neues Formular** erstellen.
+2. Im Dashboard die **Form-ID** bzw. die **action-URL** kopieren (Format `https://submit-form.com/deine-form-id`).
+3. In **`public/assets/js/main.js`** die Variable **`FORMSPARK_FORM_ID`** auf den Teil **nach** `https://submit-form.com/` setzen (nur die ID, ohne Schrägstriche).
+4. Im Formspark-Dashboard **E-Mail-Benachrichtigungen** auf **`mail@kreilos.ch`** einrichten (Betrieb/Weiterleitung; die Kundenadresse bleibt `badiwollishofen@bluewin.ch` im Impressum/Footer). Test mit `https://submit-form.com/echo` laut Formspark-Doku.
+
+Ohne gesetzte `FORMSPARK_FORM_ID` zeigt das Formular einen Hinweis statt Absenden.
 
 ## Deployment (Server: Git + Docker)
 
@@ -49,7 +56,7 @@ docker compose up -d --build
 |-----|-----|
 | Texte, Öffnungszeiten, Adresse | `public/page/index.html` (Teaser: `public/index.html`) |
 | Farben, Schriften | `public/assets/css/styles.css` (`:root`) |
-| Mail, Formularlogik | `public/assets/js/main.js` |
+| Formular (Formspark-ID) | `public/assets/js/main.js` (`FORMSPARK_FORM_ID`) |
 | Bilder | `public/assets/img/` (Quelle: `../Seebadiwollishofen Daten/fotos/`) |
 | Impressum / Datenschutz | Footer in `public/page/index.html` |
 

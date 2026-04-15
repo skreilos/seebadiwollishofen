@@ -80,8 +80,15 @@
     window.setTimeout(scrollToCurrentHash, 420);
   });
 
-  /** E-Mail für Reservierungs-Mailto (bitte anpassen) */
-  var RESERVATION_EMAIL = 'badiwollishofen@bluewin.ch';
+  /**
+   * Formspark: Form-ID aus dem Dashboard (Installation → action URL).
+   * Beispiel: Wenn die URL `https://submit-form.com/abc-xyz` lautet, hier `abc-xyz` eintragen.
+   * E-Mail-Empfang der Submissions: im Formspark-Dashboard auf mail@kreilos.ch einstellen (nicht Kundenadresse).
+   * @see https://documentation.formspark.io/setup
+   */
+  var FORMSPARK_FORM_ID = 'jKYEytA9o';
+  /** Fallback bei technischem Fehler (Formular); Kundenkontakt bleibt badiwollishofen@bluewin.ch im Footer. */
+  var FORM_ADMIN_EMAIL = 'mail@kreilos.ch';
 
   var form = document.getElementById('res-form');
   var feedback = document.getElementById('form-feedback');
@@ -116,18 +123,64 @@
         return;
       }
 
-      var fd = new FormData(form);
-      var lines = [];
-      fd.forEach(function (v, k) {
-        lines.push(k + ': ' + v);
-      });
-      var body = lines.join('\n');
-      var subject = encodeURIComponent('Anfrage Anlass / Event Seebadi Wollishofen');
-      var mail = 'mailto:' + RESERVATION_EMAIL + '?subject=' + subject + '&body=' + encodeURIComponent(body);
+      if (!FORMSPARK_FORM_ID) {
+        feedback.textContent =
+          'Formular ist noch nicht konfiguriert: In main.js die Variable FORMSPARK_FORM_ID mit der Form-ID aus dem Formspark-Dashboard eintragen.';
+        feedback.classList.add('err');
+        return;
+      }
 
-      feedback.textContent = 'Dein E-Mail-Programm öffnet sich. Bitte sende die Nachricht ab.';
-      feedback.classList.add('ok');
-      window.location.href = mail;
+      var submitBtn = form.querySelector('button[type="submit"]');
+      var fd = new FormData(form);
+      var payload = {};
+      fd.forEach(function (value, key) {
+        if (Object.prototype.hasOwnProperty.call(payload, key)) {
+          var prev = payload[key];
+          payload[key] = Array.isArray(prev) ? prev.concat([value]) : [prev, value];
+        } else {
+          payload[key] = value;
+        }
+      });
+      payload._email = {
+        subject: 'Anfrage Anlass / Event Seebadi Wollishofen',
+      };
+
+      var endpoint = 'https://submit-form.com/' + encodeURIComponent(FORMSPARK_FORM_ID);
+
+      if (submitBtn) submitBtn.disabled = true;
+
+      fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify(payload),
+      })
+        .then(function (res) {
+          if (!res.ok) {
+            throw new Error('HTTP ' + res.status);
+          }
+          return res.json().catch(function () {
+            return {};
+          });
+        })
+        .then(function () {
+          feedback.textContent = 'Danke! Deine Anfrage wurde übermittelt. Wir melden uns, sobald wir können.';
+          feedback.classList.add('ok');
+          form.reset();
+          syncDateReadonlyState();
+        })
+        .catch(function () {
+          feedback.textContent =
+            'Das hat leider nicht geklappt. Bitte versuche es später noch einmal oder schreibe an ' +
+            FORM_ADMIN_EMAIL +
+            '.';
+          feedback.classList.add('err');
+        })
+        .finally(function () {
+          if (submitBtn) submitBtn.disabled = false;
+        });
     });
   }
 

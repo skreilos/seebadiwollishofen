@@ -42,9 +42,13 @@ Ohne gesetzte `FORMSPARK_FORM_ID` zeigt das Formular einen Hinweis statt Absende
 
 ## Deployment (Server: Git + Docker)
 
+**Schritt-für-Schritt (Pfad, Compose mit nginx-proxy, Formspark):** **`deploy/DEPLOY.md`**
+
+Kurzfassung:
+
 ```bash
-git clone <ihr-repo> /opt/seebadiwollishofen-ch
-cd /opt/seebadiwollishofen-ch
+git clone <ihr-repo> /opt/seebadiwollishofen
+cd /opt/seebadiwollishofen
 docker compose up -d --build
 ```
 

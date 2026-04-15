@@ -16,11 +16,15 @@
 }
 
 .teaser-logo {
-  width: min(280px, 85vw);
+  width: min(360px, 88vw);
   height: auto;
-  margin: 0 auto 1.75rem;
+  margin: 0 auto 1.5rem;
   display: block;
-  filter: drop-shadow(0 4px 20px rgba(26, 46, 36, 0.12));
+  padding: 0.7rem 0.95rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(42, 122, 77, 0.2);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.65) inset, 0 14px 28px rgba(26, 46, 36, 0.14);
 }
 
 .teaser-text {

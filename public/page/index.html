@@ -32,7 +32,7 @@
   <link rel="preload" as="image" href="assets/img/hero-1.jpg"/>
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"/>
-  <link rel="stylesheet" href="assets/css/styles.css?v=20260416d"/>
+  <link rel="stylesheet" href="assets/css/styles.css?v=20260416e"/>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -272,6 +272,9 @@
               allowfullscreen></iframe>
             <div class="map-consent-stack">
               <p class="map-consent-hint" id="map-consent-hint">Die Karte lädt nach Zustimmung zu nicht notwendigen Cookies (unten «Alle akzeptieren»). Ohne Einwilligung öffnest du die Lage mit dem Button direkt darunter in Google Maps.</p>
+              <p class="map-consent-actions" id="map-cookie-reopen-wrap">
+                <button type="button" class="map-consent__reopen" id="map-cookie-reopen" data-open-cookie-settings>Cookie-Einstellungen öffnen</button>
+              </p>
             </div>
           </div>
           <p class="map-stack__actions">
@@ -397,7 +400,7 @@
 
         <h5>6.1 Cookies</h5>
         <p>Wir können Cookies verwenden. Bei Cookies (eigene «First-Party-Cookies» sowie Cookies von Dritten, deren Dienste wir nutzen, «Third-Party-Cookies») handelt es sich um Daten, die im Browser gespeichert werden.</p>
-        <p>Du kannst Cookies in deinen Browser-Einstellungen jederzeit deaktivieren oder löschen. Für nicht zwingend erforderliche Cookies holen wir, soweit nötig, deine Einwilligung ein (siehe Hinweisleiste beim ersten Besuch).</p>
+        <p>Du kannst Cookies in deinen Browser-Einstellungen jederzeit deaktivieren oder löschen. Für nicht zwingend erforderliche Cookies holen wir, soweit nötig, deine Einwilligung ein (Hinweisleiste beim ersten Besuch). Deine Auswahl kannst du später über «Cookie-Einstellungen» im Seitenfuss oder bei der Karte erneut öffnen und anpassen.</p>
 
         <h5>6.2 Server-Logdateien</h5>
         <p>Beim Aufruf dieser Website können automatisch technische Informationen erfasst werden, z.&nbsp;B. Datum und Uhrzeit, IP-Adresse, abgerufene Seite, Zugriffsstatus, Browsertyp. Diese Daten dienen der stabilen Bereitstellung der Website und der IT-Sicherheit.</p>
@@ -445,7 +448,7 @@
         </div>
       </div>
     </div>
-    <p class="footer-copy">© <span id="y"></span> · <a href="https://booom.ch" rel="noopener noreferrer" target="_blank">Booom.ch</a></p>
+    <p class="footer-copy">© <span id="y"></span> · <a href="https://booom.ch" rel="noopener noreferrer" target="_blank">Booom.ch</a> · <button type="button" class="footer-cookie-link" data-open-cookie-settings>Cookie-Einstellungen</button></p>
   </footer>
 
   <div id="cookie-banner" class="cookie-banner" role="dialog" aria-labelledby="cookie-banner-title" aria-describedby="cookie-banner-desc">
@@ -471,6 +474,6 @@
   </div>
 
   <script src="assets/js/main.js?v=20260416c"></script>
-  <script src="assets/js/privacy.js"></script>
+  <script src="assets/js/privacy.js?v=20260416e"></script>
 </body>
 </html>

@@ -11,6 +11,14 @@
     document.body.classList.remove('has-cookie-banner');
   }
 
+  function showBanner() {
+    banner.classList.remove('cookie-banner--dismissed');
+    banner.removeAttribute('aria-hidden');
+    document.body.classList.add('has-cookie-banner');
+    var first = document.getElementById('cookie-accept-all');
+    if (first) window.setTimeout(function () { first.focus(); }, 50);
+  }
+
   function updateMapHint() {
     var hint = document.getElementById('map-consent-hint');
     if (!hint) return;
@@ -44,15 +52,6 @@
     else if (v === 'necessary') unloadMaps();
   }
 
-  if (localStorage.getItem(key)) {
-    hideBanner();
-    applyStoredChoice();
-    return;
-  }
-
-  document.body.classList.add('has-cookie-banner');
-  banner.removeAttribute('aria-hidden');
-
   function save(choice) {
     try {
       localStorage.setItem(key, choice);
@@ -66,6 +65,22 @@
   var btnMin = document.getElementById('cookie-necessary');
   if (btnAll) btnAll.addEventListener('click', function () { save('all'); });
   if (btnMin) btnMin.addEventListener('click', function () { save('necessary'); });
+
+  document.querySelectorAll('[data-open-cookie-settings]').forEach(function (el) {
+    el.addEventListener('click', function (e) {
+      e.preventDefault();
+      showBanner();
+    });
+  });
+
+  if (localStorage.getItem(key)) {
+    hideBanner();
+    applyStoredChoice();
+  } else {
+    document.body.classList.add('has-cookie-banner');
+    banner.removeAttribute('aria-hidden');
+    updateMapHint();
+  }
 })();
 
 (function () {

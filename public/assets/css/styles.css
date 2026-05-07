@@ -1572,7 +1572,7 @@ a:hover { color: var(--accent-hover); }
   outline-offset: -2px;
 }
 .jobs-box > :not(summary) {
-  padding-inline: 1.35rem;
+  padding-inline: 1.55rem;
 }
 .jobs-box > p:first-of-type {
   margin-top: 1rem;
@@ -1580,7 +1580,10 @@ a:hover { color: var(--accent-hover); }
 .jobs-box > p:last-child {
   margin-bottom: 1.25rem;
 }
-.jobs-box ul { margin: 0.4rem 0 1rem; padding-left: 1.15rem; }
+.jobs-box ul {
+  margin: 0.4rem 0 1rem;
+  padding-left: 2.7rem;
+}
 .jobs-box .btn { margin-top: 0.25rem; }
 
 .philosophy .h3 {

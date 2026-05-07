@@ -19,14 +19,25 @@
   --shadow-lg: 0 12px 36px rgba(26, 44, 34, 0.1);
   --font-sans: "Source Sans 3", system-ui, sans-serif;
   --font-display: "Source Sans 3", system-ui, sans-serif;
-  --radius: 15px;
+  --radius: 10px;
+  --radius-lg: 16px;
   --header-h: 4.15rem;
-  --max: 920px;
+  --max: 1080px;
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
   --fw-text: 400;
   --fw-label: 500;
   --fw-title: 500;
   --fw-em: 600;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
 }
 
 *,
@@ -122,6 +133,20 @@ a:hover { color: var(--accent-hover); }
   overflow: visible;
 }
 
+@media (max-width: 1023px) {
+  /* Mobile browsers handle fixed header more reliably than sticky. */
+  .site-header {
+    position: fixed;
+    left: 0;
+    right: 0;
+    width: 100%;
+  }
+
+  body {
+    padding-top: var(--header-h);
+  }
+}
+
 .header-inner {
   width: min(100% - 1.25rem, var(--max));
   margin-inline: auto;
@@ -154,7 +179,7 @@ a:hover { color: var(--accent-hover); }
   padding: 0;
   border: 1px solid var(--border);
   background: var(--surface);
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
 }
 .nav-toggle span {
@@ -205,7 +230,7 @@ a:hover { color: var(--accent-hover); }
   text-decoration: none;
   font-weight: var(--fw-label);
   padding: 0.85rem 1rem;
-  border-radius: 8px;
+  border-radius: 6px;
 }
 .site-nav a:hover { background: rgba(255, 255, 255, 0.7); color: var(--accent); }
 
@@ -367,7 +392,7 @@ a:hover { color: var(--accent-hover); }
   font-family: inherit;
   font-size: 0.95rem;
   font-weight: var(--fw-label);
-  border-radius: 10px;
+  border-radius: 8px;
   border: 1px solid transparent;
   cursor: pointer;
   text-decoration: none;
@@ -416,7 +441,7 @@ a:hover { color: var(--accent-hover); }
 
 /* Sections */
 .section {
-  padding: clamp(3rem, 7.5vw, 5rem) 0;
+  padding: clamp(3.5rem, 8vw, 6rem) 0;
 }
 
 .section-alt {
@@ -424,18 +449,92 @@ a:hover { color: var(--accent-hover); }
   border-block: 1px solid var(--border-subtle);
 }
 
+/* Modern section header: flex layout, predictable bottom alignment */
+.section-heading-with-image {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-end;
+  gap: clamp(1.25rem, 2.5vw, 2rem);
+  margin: 0 0 var(--space-6);
+}
+
+.section-heading-with-image--right {
+  flex-direction: row-reverse;
+}
+
+.section-heading-with-image__figure {
+  flex: 0 0 auto;
+  margin: 0;
+  width: clamp(180px, 25vw, 260px);
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow);
+}
+
+.section-heading-with-image__figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.section .section-heading-with-image h2 {
+  flex: 0 1 auto;
+  margin: 0 0 0.18em;
+  padding: 0;
+  text-align: left;
+  line-height: 1.05;
+  max-width: 30ch;
+}
+
+.section .section-heading-with-image--right h2 {
+  text-align: left;
+}
+
+.section-intro {
+  max-width: 62ch;
+}
+
+.section-intro + .section-intro {
+  margin-top: -0.5rem;
+}
+
+@media (max-width: 720px) {
+  .section-heading-with-image,
+  .section-heading-with-image--right {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
+  }
+
+  .section-heading-with-image__figure {
+    width: min(60vw, 220px);
+  }
+
+  .section .section-heading-with-image h2,
+  .section .section-heading-with-image--right h2 {
+    margin: 0;
+    max-width: none;
+  }
+}
+
 .section h2 {
   font-family: var(--font-display);
-  font-size: clamp(1.85rem, 4.1vw, 2.55rem);
-  font-weight: 400;
-  margin: 0 0 0.65rem;
+  font-size: clamp(2rem, 4.2vw, 2.6rem);
+  font-weight: 500;
+  margin: 0 0 var(--space-3);
   letter-spacing: -0.02em;
+  line-height: 1.12;
   color: var(--text);
 }
 
 .section-intro {
   color: var(--muted);
-  margin: 0 0 1.65rem;
+  margin: 0 0 var(--space-5);
+  font-size: 1.04rem;
+  line-height: 1.65;
 }
 
 .h3 {
@@ -516,7 +615,7 @@ a:hover { color: var(--accent-hover); }
   flex-shrink: 0;
   width: 2.85rem;
   height: 2.85rem;
-  border-radius: 8px;
+  border-radius: 6px;
   background: var(--bg-soft);
   color: var(--text);
   font-size: 0.68rem;
@@ -708,7 +807,7 @@ a:hover { color: var(--accent-hover); }
   max-height: 90vh;
   width: auto;
   height: auto;
-  border-radius: 12px;
+  border-radius: 6px;
   box-shadow: 0 22px 55px rgba(0, 0, 0, 0.45);
 }
 
@@ -716,7 +815,7 @@ a:hover { color: var(--accent-hover); }
 .lightbox__nav {
   position: absolute;
   border: 0;
-  border-radius: 999px;
+  border-radius: 14px;
   background: rgba(22, 27, 34, 0.75);
   color: #fff;
   cursor: pointer;
@@ -931,7 +1030,7 @@ a:hover { color: var(--accent-hover); }
   color: var(--text);
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 6px;
 }
 
 .res-form input:focus-visible,
@@ -1107,7 +1206,7 @@ a:hover { color: var(--accent-hover); }
   align-items: center;
   gap: 0.45rem;
   padding: 0.45rem 0.9rem;
-  border-radius: 999px;
+  border-radius: 14px;
   background: var(--surface);
   border: 1px solid var(--border-subtle);
   font-size: 0.88rem;
@@ -1314,7 +1413,7 @@ a:hover { color: var(--accent-hover); }
 
 .site-header .logo:focus-visible,
 .site-nav a:focus-visible {
-  border-radius: 10px;
+  border-radius: 8px;
 }
 
 /* Kundenupdate: Logo, Navigation, Formular, Inhalt */
@@ -1349,10 +1448,10 @@ a:hover { color: var(--accent-hover); }
   .site-nav { justify-content: flex-end; }
   .nav-home-mobile { display: none !important; }
   .site-nav a {
-    font-size: 1.18rem;
+    font-size: 1.02rem;
     font-weight: 400;
     letter-spacing: 0.005em;
-    padding: 0.58rem 0.86rem;
+    padding: 0.5rem 0.72rem;
   }
 }
 
@@ -1377,9 +1476,9 @@ a:hover { color: var(--accent-hover); }
     transition: font-size 0.24s var(--ease), padding 0.24s var(--ease);
   }
   .site-header.is-compact .site-nav a {
-    font-size: 1.08rem;
+    font-size: 0.96rem;
     font-weight: 400;
-    padding: 0.5rem 0.74rem;
+    padding: 0.45rem 0.64rem;
   }
 }
 
